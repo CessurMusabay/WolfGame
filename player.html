@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ئالۋاستى</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="input-group mb-3" id="id-form">
+        <input type="text" class="form-control" type="number" placeholder="نۇمۇرىڭىز" id="input-id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" onclick="onSumitNumber();" type="button">كىرىش</button>
+        </div>
+      </div>
+
+
+      <div class="card" id="body" style="display: none;">
+        <div class="card-header">
+          نومۇرىڭىز : 
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+        </div>
+      </div>
+
+      <div id="msg"></div>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
+    <script>
+       var id = null;
+        var firebaseConfig = {
+            apiKey: "AIzaSyCnLVlVWblvM1CTtDHVPOy0q5W0h989Kr8",
+            authDomain: "alvas-68095.firebaseapp.com",
+            databaseURL: "https://alvas-68095.firebaseio.com",
+            projectId: "alvas-68095",
+            storageBucket: "alvas-68095.appspot.com",
+            messagingSenderId: "961711444475",
+            appId: "1:961711444475:web:83b3d661fdea5c963bfb5e",
+            measurementId: "G-CGYZ11MRL1"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+
+        firebase.database().ref('game').on('value',function(snapshot){
+            document.getElementsByClassName("card-title")[0].innerHTML = snapshot.val()[id];
+        });
+
+        function onSumitNumber(){
+            var ids = [
+                110,    // malim
+                211,    // akam
+                312,    // man
+                413,    // ustam
+                514,    // muzappar
+                615,    // muhammed omer
+                716,    // mawlan
+                817,    // maksumkam
+                918,
+                519,
+                6110,
+                7111,
+                9812,
+                1113,
+                1414,
+                8915,
+                9816,
+                1217,
+            ];
+
+            id = parseInt(document.getElementById('input-id').value);
+            if(! ids.includes(id)){
+                document.getElementById("msg").innerHTML = "نۇمۇرىڭىز خاتا";
+                return;
+            }
+            document.getElementById("msg").innerHTML = "";
+            id = ids.indexOf(id)
+            console.log(id);
+            document.getElementById("body").style.display = "block";
+            document.getElementsByClassName("card-header")[0].innerHTML = "نومۇرىڭىز : " + id;
+            document.getElementById("id-form").style.display = "none";
+            firebase.database().ref('game').once('value').then(function(snapshot){
+                document.getElementsByClassName("card-title")[0].innerHTML = snapshot.val()[id];
+            });
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
